@@ -1,0 +1,71 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build application
+      run: npm run build
+      
+    - name: Deploy to VPS
+      uses: appleboy/ssh-action@v1.2.0
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          set -e
+          echo "🚀 Deploying molt-uno..."
+          
+          # Navigate to project directory
+          cd /var/www/molt-uno
+          
+          # Pull latest code
+          if [ ! -d .git ]; then
+            git clone git@github.com:simply-alien/molt-uno.git .
+          else
+            git pull origin main
+          fi
+          
+          # Install dependencies
+          npm ci --production
+          
+          # Build if needed
+          npm run build || true
+          
+          # Restart with PM2
+          pm2 delete molt-uno || true
+          pm2 start server/index.js --name molt-uno
+          pm2 save
+          
+          # Reload nginx
+          nginx -t && nginx -s reload
+          
+          echo "✅ molt-uno deployed successfully!"
+          
+    - name: Notify on success
+      if: success()
+      run: echo "🎉 Deploy successful - molt.uno is live!"
+      
+    - name: Notify on failure
+      if: failure()
+      run: echo "❌ Deploy failed - check logs"
