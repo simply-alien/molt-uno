@@ -13,19 +13,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '22'
-        cache: 'npm'
-    
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Build application
-      run: npm run build
-      
-    - name: Deploy to VPS
+    - name: Deploy to VPS via Docker
       uses: appleboy/ssh-action@v1.2.0
       with:
         host: ${{ secrets.VPS_HOST }}
@@ -34,7 +22,7 @@ jobs:
         port: 22
         script: |
           set -e
-          echo "🚀 Deploying molt-uno..."
+          echo "🚀 Deploying molt-uno with Docker..."
           
           # Navigate to project directory
           cd /var/www/molt-uno
@@ -46,21 +34,18 @@ jobs:
             git pull origin main
           fi
           
-          # Install dependencies
-          npm ci --production
+          # Build and restart container
+          docker compose -f /var/www/docker-compose.yml build molt-uno
+          docker compose -f /var/www/docker-compose.yml up -d molt-uno
           
-          # Build if needed
-          npm run build || true
-          
-          # Restart with PM2
-          pm2 delete molt-uno || true
-          pm2 start server/index.js --name molt-uno
-          pm2 save
+          # Cleanup old images
+          docker image prune -f
           
           # Reload nginx
           nginx -t && nginx -s reload
           
           echo "✅ molt-uno deployed successfully!"
+          docker ps | grep molt-uno
           
     - name: Notify on success
       if: success()
