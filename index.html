@@ -255,7 +255,11 @@
             setView('lobby');
           });
 
-          socket.on('player-joined', ({ game }) => setCurrentGame(game));
+          socket.on('player-joined', ({ game }) => {
+            console.log('Player joined, updating game:', game);
+            setCurrentGame(game);
+            if (view !== 'lobby') setView('lobby');
+          });
           socket.on('game-started', ({ game }) => {
             setCurrentGame(game);
             setView('game');
