@@ -60,14 +60,15 @@
         animation: slideIn 0.3s ease-out;
       }
     </style>
+    <!-- Load React, ReactDOM, and Socket.IO from CDN using UMD builds -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.socket.io/4.8.3/socket.io.min.js"></script>
   </head>
   <body class="min-h-screen">
     <div id="root"></div>
-    <script type="module">
-      import React, { useState, useEffect } from 'https://esm.sh/react@19.2.4';
-      import ReactDOM from 'https://esm.sh/react-dom@19.2.4/client';
-      import io from 'https://cdn.socket.io/4.8.3/socket.io.esm.min.js';
-
+    <script>
+      const { useState, useEffect } = React;
       const socket = io(window.location.origin);
 
       function Card({ card, onClick, className = '' }) {
@@ -89,13 +90,13 @@
           'wild': '🌈'
         }[card.value] || card.value;
         
-        return (
-          <div 
-            onClick={onClick}
-            className={`card w-24 h-36 rounded-2xl ${color} text-white flex items-center justify-center text-4xl font-bold shadow-2xl cursor-pointer border-4 border-white ${className}`}
-          >
-            <div className="drop-shadow-lg">{displayValue}</div>
-          </div>
+        return React.createElement(
+          'div',
+          {
+            onClick: onClick,
+            className: `card w-24 h-36 rounded-2xl ${color} text-white flex items-center justify-center text-4xl font-bold shadow-2xl cursor-pointer border-4 border-white ${className}`
+          },
+          React.createElement('div', { className: 'drop-shadow-lg' }, displayValue)
         );
       }
 
@@ -177,173 +178,160 @@
         const refreshGames = () => socket.emit('list-games');
 
         if (view === 'home') {
-          return (
-            <div className="min-h-screen flex items-center justify-center p-4">
-              <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 max-w-md w-full slide-in">
-                <h1 className="text-6xl text-center text-white mb-8 drop-shadow-2xl">
-                  🎮 Molt UNO
-                </h1>
-                
-                <input
-                  type="text"
-                  placeholder="Your name"
-                  value={playerName}
-                  onChange={(e) => setPlayerName(e.target.value)}
-                  className="w-full px-6 py-4 rounded-2xl text-2xl mb-4 border-4 border-white/20 bg-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-4 focus:ring-white/40"
-                />
-                
-                <button
-                  onClick={createGame}
-                  className="w-full bg-gradient-to-r from-green-400 to-green-600 text-white py-4 rounded-2xl text-2xl mb-3 hover:scale-105 transition-transform shadow-2xl"
-                >
-                  🎯 Create Game
-                </button>
-                
-                <button
-                  onClick={refreshGames}
-                  className="w-full bg-gradient-to-r from-blue-400 to-blue-600 text-white py-4 rounded-2xl text-2xl shadow-2xl hover:scale-105 transition-transform"
-                >
-                  🔍 Browse Games
-                </button>
-
-                {gameList.length > 0 && (
-                  <div className="mt-6 space-y-2">
-                    {gameList.map(game => (
-                      <div key={game.id} className="bg-white/20 p-4 rounded-xl flex justify-between items-center">
-                        <span className="text-white text-xl">Game {game.id} ({game.players} players)</span>
-                        <button
-                          onClick={() => joinGame(game.id)}
-                          className="bg-yellow-500 px-6 py-2 rounded-xl hover:scale-110 transition-transform"
-                        >
-                          Join
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {error && (
-                  <div className="fixed top-4 right-4 bg-red-500 text-white px-6 py-4 rounded-2xl shadow-2xl animate-bounce">
-                    {error}
-                  </div>
-                )}
-              </div>
-            </div>
+          return React.createElement(
+            'div',
+            { className: 'min-h-screen flex items-center justify-center p-4' },
+            React.createElement(
+              'div',
+              { className: 'bg-white/10 backdrop-blur-xl rounded-3xl p-8 max-w-md w-full slide-in' },
+              React.createElement('h1', { className: 'text-6xl text-center text-white mb-8 drop-shadow-2xl' }, '🎮 Molt UNO'),
+              React.createElement('input', {
+                type: 'text',
+                placeholder: 'Your name',
+                value: playerName,
+                onChange: (e) => setPlayerName(e.target.value),
+                className: 'w-full px-6 py-4 rounded-2xl text-2xl mb-4 border-4 border-white/20 bg-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-4 focus:ring-white/40'
+              }),
+              React.createElement('button', {
+                onClick: createGame,
+                className: 'w-full bg-gradient-to-r from-green-400 to-green-600 text-white py-4 rounded-2xl text-2xl mb-3 hover:scale-105 transition-transform shadow-2xl'
+              }, '🎯 Create Game'),
+              React.createElement('button', {
+                onClick: refreshGames,
+                className: 'w-full bg-gradient-to-r from-blue-400 to-blue-600 text-white py-4 rounded-2xl text-2xl shadow-2xl hover:scale-105 transition-transform'
+              }, '🔍 Browse Games'),
+              gameList.length > 0 && React.createElement(
+                'div',
+                { className: 'mt-6 space-y-2' },
+                gameList.map(game => React.createElement(
+                  'div',
+                  { key: game.id, className: 'bg-white/20 p-4 rounded-xl flex justify-between items-center' },
+                  React.createElement('span', { className: 'text-white text-xl' }, `Game ${game.id} (${game.players} players)`),
+                  React.createElement('button', {
+                    onClick: () => joinGame(game.id),
+                    className: 'bg-yellow-500 px-6 py-2 rounded-xl hover:scale-110 transition-transform'
+                  }, 'Join')
+                ))
+              ),
+              error && React.createElement('div', { className: 'fixed top-4 right-4 bg-red-500 text-white px-6 py-4 rounded-2xl shadow-2xl animate-bounce' }, error)
+            )
           );
         }
 
         if (view === 'lobby') {
-          return (
-            <div className="min-h-screen flex items-center justify-center p-4">
-              <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 max-w-2xl w-full">
-                <h1 className="text-5xl text-white text-center mb-4">🎮 Game Lobby</h1>
-                <h2 className="text-3xl text-yellow-300 text-center mb-8">Code: {gameId}</h2>
-                
-                <div className="bg-white/20 rounded-2xl p-6 mb-6">
-                  <h3 className="text-2xl text-white mb-4">Players ({currentGame?.players.length}/10):</h3>
-                  <div className="space-y-2">
-                    {currentGame?.players.map(p => (
-                      <div key={p.id} className="bg-white/30 px-6 py-3 rounded-xl text-white text-xl">
-                        👤 {p.name}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <button
-                  onClick={startGame}
-                  disabled={currentGame?.players.length < 2}
-                  className="w-full bg-gradient-to-r from-green-400 to-green-600 text-white py-4 rounded-2xl text-2xl disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 transition-transform shadow-2xl"
-                >
-                  🚀 Start Game
-                </button>
-              </div>
-            </div>
+          return React.createElement(
+            'div',
+            { className: 'min-h-screen flex items-center justify-center p-4' },
+            React.createElement(
+              'div',
+              { className: 'bg-white/10 backdrop-blur-xl rounded-3xl p-8 max-w-2xl w-full' },
+              React.createElement('h1', { className: 'text-5xl text-white text-center mb-4' }, '🎮 Game Lobby'),
+              React.createElement('h2', { className: 'text-3xl text-yellow-300 text-center mb-8' }, `Code: ${gameId}`),
+              React.createElement(
+                'div',
+                { className: 'bg-white/20 rounded-2xl p-6 mb-6' },
+                React.createElement('h3', { className: 'text-2xl text-white mb-4' }, `Players (${currentGame?.players.length}/10):`),
+                React.createElement(
+                  'div',
+                  { className: 'space-y-2' },
+                  currentGame?.players.map(p => React.createElement(
+                    'div',
+                    { key: p.id, className: 'bg-white/30 px-6 py-3 rounded-xl text-white text-xl' },
+                    `👤 ${p.name}`
+                  ))
+                )
+              ),
+              React.createElement('button', {
+                onClick: startGame,
+                disabled: currentGame?.players.length < 2,
+                className: 'w-full bg-gradient-to-r from-green-400 to-green-600 text-white py-4 rounded-2xl text-2xl disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 transition-transform shadow-2xl'
+              }, '🚀 Start Game')
+            )
           );
         }
 
         if (view === 'game') {
           const isMyTurn = currentGame?.currentPlayer === socket.id;
           
-          return (
-            <div className="min-h-screen p-4">
-              <div className="max-w-7xl mx-auto">
-                <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-4xl text-white">Game {gameId}</h2>
-                  <div className={`text-3xl px-8 py-3 rounded-2xl ${isMyTurn ? 'bg-green-500 animate-pulse' : 'bg-white/20'}`}>
-                    {isMyTurn ? '🎯 YOUR TURN!' : '⏳ Waiting...'}
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                  <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-6">
-                    <h3 className="text-2xl text-white mb-4">Top Card:</h3>
-                    {currentGame?.topCard && (
-                      <div className="flex justify-center">
-                        <Card card={currentGame.topCard} />
-                      </div>
-                    )}
-                    <p className="text-xl text-white text-center mt-4">
-                      Color: <span className={`font-bold ${currentGame?.currentColor === 'red' ? 'text-uno-red' : currentGame?.currentColor === 'yellow' ? 'text-uno-yellow' : currentGame?.currentColor === 'green' ? 'text-uno-green' : 'text-uno-blue'}`}>
-                        {currentGame?.currentColor?.toUpperCase()}
-                      </span>
-                    </p>
-                  </div>
-
-                  <div className="md:col-span-2 bg-white/10 backdrop-blur-xl rounded-3xl p-6">
-                    <h3 className="text-2xl text-white mb-4">Players:</h3>
-                    <div className="grid grid-cols-2 gap-3">
-                      {currentGame?.players.map(p => (
-                        <div key={p.id} className="bg-white/20 px-4 py-3 rounded-xl text-white flex justify-between items-center">
-                          <span className="text-lg">{p.name}</span>
-                          <span className="text-xl font-bold">{p.cardCount} 🃏</span>
-                          {p.calledUno && <span className="text-2xl">🎯</span>}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-6">
-                  <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-2xl text-white">Your Hand ({myHand.length} cards):</h3>
-                    <div className="space-x-3">
-                      <button
-                        onClick={drawCard}
-                        disabled={!isMyTurn}
-                        className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl text-xl disabled:opacity-50 hover:scale-110 transition-transform shadow-lg"
-                      >
-                        🎴 Draw Card
-                      </button>
-                      <button
-                        onClick={callUno}
-                        disabled={myHand.length !== 1}
-                        className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-3 rounded-xl text-xl disabled:opacity-50 hover:scale-110 transition-transform shadow-lg"
-                      >
-                        🎯 UNO!
-                      </button>
-                    </div>
-                  </div>
-                  
-                  <div className="flex gap-4 overflow-x-auto pb-4">
-                    {myHand.map((card, index) => (
-                      <Card
-                        key={index}
-                        card={card}
-                        onClick={isMyTurn ? () => playCard(index, card) : null}
-                        className={isMyTurn ? 'hover:scale-110' : 'opacity-70 cursor-not-allowed'}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {error && (
-                <div className="fixed top-4 right-4 bg-red-500 text-white px-6 py-4 rounded-2xl shadow-2xl">
-                  {error}
-                </div>
-              )}
-            </div>
+          return React.createElement(
+            'div',
+            { className: 'min-h-screen p-4' },
+            React.createElement(
+              'div',
+              { className: 'max-w-7xl mx-auto' },
+              React.createElement(
+                'div',
+                { className: 'flex justify-between items-center mb-6' },
+                React.createElement('h2', { className: 'text-4xl text-white' }, `Game ${gameId}`),
+                React.createElement('div', { className: `text-3xl px-8 py-3 rounded-2xl ${isMyTurn ? 'bg-green-500 animate-pulse' : 'bg-white/20'}` }, isMyTurn ? '🎯 YOUR TURN!' : '⏳ Waiting...')
+              ),
+              React.createElement(
+                'div',
+                { className: 'grid grid-cols-1 md:grid-cols-3 gap-6 mb-6' },
+                React.createElement(
+                  'div',
+                  { className: 'bg-white/10 backdrop-blur-xl rounded-3xl p-6' },
+                  React.createElement('h3', { className: 'text-2xl text-white mb-4' }, 'Top Card:'),
+                  currentGame?.topCard && React.createElement('div', { className: 'flex justify-center' }, React.createElement(Card, { card: currentGame.topCard })),
+                  React.createElement(
+                    'p',
+                    { className: 'text-xl text-white text-center mt-4' },
+                    'Color: ',
+                    React.createElement('span', { className: `font-bold ${currentGame?.currentColor === 'red' ? 'text-uno-red' : currentGame?.currentColor === 'yellow' ? 'text-uno-yellow' : currentGame?.currentColor === 'green' ? 'text-uno-green' : 'text-uno-blue'}` }, currentGame?.currentColor?.toUpperCase())
+                  )
+                ),
+                React.createElement(
+                  'div',
+                  { className: 'md:col-span-2 bg-white/10 backdrop-blur-xl rounded-3xl p-6' },
+                  React.createElement('h3', { className: 'text-2xl text-white mb-4' }, 'Players:'),
+                  React.createElement(
+                    'div',
+                    { className: 'grid grid-cols-2 gap-3' },
+                    currentGame?.players.map(p => React.createElement(
+                      'div',
+                      { key: p.id, className: 'bg-white/20 px-4 py-3 rounded-xl text-white flex justify-between items-center' },
+                      React.createElement('span', { className: 'text-lg' }, p.name),
+                      React.createElement('span', { className: 'text-xl font-bold' }, `${p.cardCount} 🃏`),
+                      p.calledUno && React.createElement('span', { className: 'text-2xl' }, '🎯')
+                    ))
+                  )
+                )
+              ),
+              React.createElement(
+                'div',
+                { className: 'bg-white/10 backdrop-blur-xl rounded-3xl p-6' },
+                React.createElement(
+                  'div',
+                  { className: 'flex justify-between items-center mb-4' },
+                  React.createElement('h3', { className: 'text-2xl text-white' }, `Your Hand (${myHand.length} cards):`),
+                  React.createElement(
+                    'div',
+                    { className: 'space-x-3' },
+                    React.createElement('button', {
+                      onClick: drawCard,
+                      disabled: !isMyTurn,
+                      className: 'bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl text-xl disabled:opacity-50 hover:scale-110 transition-transform shadow-lg'
+                    }, '🎴 Draw Card'),
+                    React.createElement('button', {
+                      onClick: callUno,
+                      disabled: myHand.length !== 1,
+                      className: 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-3 rounded-xl text-xl disabled:opacity-50 hover:scale-110 transition-transform shadow-lg'
+                    }, '🎯 UNO!')
+                  )
+                ),
+                React.createElement(
+                  'div',
+                  { className: 'flex gap-4 overflow-x-auto pb-4' },
+                  myHand.map((card, index) => React.createElement(Card, {
+                    key: index,
+                    card: card,
+                    onClick: isMyTurn ? () => playCard(index, card) : null,
+                    className: isMyTurn ? 'hover:scale-110' : 'opacity-70 cursor-not-allowed'
+                  }))
+                )
+              ),
+              error && React.createElement('div', { className: 'fixed top-4 right-4 bg-red-500 text-white px-6 py-4 rounded-2xl shadow-2xl' }, error)
+            )
           );
         }
       }
