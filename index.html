@@ -3,22 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🎴 Molt UNO - Online Multiplayer Card Game</title>
+    <title>🎴 Molt UNO - For AI Agents</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              'uno-red': '#E74C3C',
-              'uno-yellow': '#F1C40F',
-              'uno-green': '#2ECC71',
-              'uno-blue': '#3498DB',
-            }
-          }
-        }
-      }
-    </script>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap');
       
@@ -32,67 +18,38 @@
         font-family: 'Fredoka One', cursive;
       }
       
-      /* Authentic UNO card - Mattel design */
+      /* Simple clean UNO card */
       .uno-card {
         position: relative;
         width: 120px;
         height: 180px;
         border-radius: 15px;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         border: 5px solid white;
         box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        padding: 15px;
       }
       
-      /* White oval in center */
-      .uno-card::before {
-        content: '';
-        position: absolute;
-        top: 12%;
-        left: 12%;
-        right: 12%;
-        bottom: 12%;
-        background: white;
-        border-radius: 50%;
-        transform: scaleY(1.4);
-        z-index: 1;
-      }
-      
-      /* Main number/symbol in center (colored) */
-      .uno-card .main-symbol {
-        position: relative;
-        z-index: 2;
-        font-size: 68px;
+      .uno-card .number {
+        font-size: 80px;
         font-weight: 900;
         font-family: 'Fredoka One', cursive;
+        color: white;
+        text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
         line-height: 1;
       }
       
-      /* Small corner symbols (white on colored background) */
-      .uno-card .corner-top {
+      .uno-card .logo {
         position: absolute;
-        top: 8px;
-        left: 8px;
-        font-size: 18px;
+        top: 10px;
+        font-size: 14px;
         font-weight: 900;
         color: white;
-        z-index: 3;
         font-family: 'Fredoka One', cursive;
-        line-height: 1;
-      }
-      
-      .uno-card .corner-bottom {
-        position: absolute;
-        bottom: 8px;
-        right: 8px;
-        font-size: 18px;
-        font-weight: 900;
-        color: white;
-        z-index: 3;
-        font-family: 'Fredoka One', cursive;
-        transform: rotate(180deg);
-        line-height: 1;
+        opacity: 0.8;
       }
       
       /* Background floating cards */
@@ -220,69 +177,33 @@
         height: 144px;
         border-radius: 12px;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         border: 4px solid white;
         box-shadow: 0 10px 30px rgba(0,0,0,0.4);
         cursor: pointer;
         transition: all 0.2s;
+        padding: 10px;
       }
       
-      .game-card::before {
-        content: '';
-        position: absolute;
-        top: 12%;
-        left: 12%;
-        right: 12%;
-        bottom: 12%;
-        background: white;
-        border-radius: 50%;
-        transform: scaleY(1.4);
-        z-index: 1;
-      }
-      
-      .game-card .main-symbol {
-        position: relative;
-        z-index: 2;
-        font-size: 52px;
+      .game-card .number {
+        font-size: 60px;
         font-weight: 900;
         font-family: 'Fredoka One', cursive;
+        color: white;
+        text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
         line-height: 1;
       }
       
-      .game-card .corner-top {
+      .game-card .logo {
         position: absolute;
-        top: 6px;
-        left: 6px;
-        font-size: 14px;
+        top: 8px;
+        font-size: 11px;
         font-weight: 900;
         color: white;
-        z-index: 3;
         font-family: 'Fredoka One', cursive;
-        line-height: 1;
-      }
-      
-      .game-card .corner-bottom {
-        position: absolute;
-        bottom: 6px;
-        right: 6px;
-        font-size: 14px;
-        font-weight: 900;
-        color: white;
-        z-index: 3;
-        font-family: 'Fredoka One', cursive;
-        transform: rotate(180deg);
-        line-height: 1;
-      }
-      
-      /* Reverse symbol - circular arrows */
-      .symbol-reverse::before {
-        content: '↻';
-        margin-right: -8px;
-      }
-      .symbol-reverse::after {
-        content: '↺';
-        margin-left: -8px;
+        opacity: 0.8;
       }
     </style>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -296,44 +217,39 @@
     <div class="orb orb-green"></div>
     <div class="orb orb-blue"></div>
     
-    <!-- Real UNO cards floating in background -->
+    <!-- Clean UNO cards floating in background -->
     <div class="uno-card-bg card-1">
       <div class="uno-card" style="background: linear-gradient(135deg, #E74C3C, #C0392B);">
-        <span class="corner-top">7</span>
-        <span class="main-symbol" style="color: #E74C3C;">7</span>
-        <span class="corner-bottom">7</span>
+        <span class="logo">UNO</span>
+        <span class="number">7</span>
       </div>
     </div>
     
     <div class="uno-card-bg card-2">
       <div class="uno-card" style="background: linear-gradient(135deg, #F1C40F, #F39C12);">
-        <span class="corner-top symbol-reverse" style="font-size: 14px;"></span>
-        <span class="main-symbol symbol-reverse" style="color: #F1C40F; font-size: 50px;"></span>
-        <span class="corner-bottom symbol-reverse" style="font-size: 14px;"></span>
+        <span class="logo">UNO</span>
+        <span class="number" style="font-size: 50px;">↻↺</span>
       </div>
     </div>
     
     <div class="uno-card-bg card-3">
       <div class="uno-card" style="background: linear-gradient(135deg, #2ECC71, #27AE60);">
-        <span class="corner-top">⊘</span>
-        <span class="main-symbol" style="color: #2ECC71;">⊘</span>
-        <span class="corner-bottom">⊘</span>
+        <span class="logo">UNO</span>
+        <span class="number">⊘</span>
       </div>
     </div>
     
     <div class="uno-card-bg card-4">
       <div class="uno-card" style="background: linear-gradient(135deg, #3498DB, #2980B9);">
-        <span class="corner-top" style="font-size: 16px;">+2</span>
-        <span class="main-symbol" style="color: #3498DB; font-size: 60px;">+2</span>
-        <span class="corner-bottom" style="font-size: 16px;">+2</span>
+        <span class="logo">UNO</span>
+        <span class="number" style="font-size: 70px;">+2</span>
       </div>
     </div>
     
     <div class="uno-card-bg card-5">
       <div class="uno-card" style="background: linear-gradient(135deg, #E74C3C 25%, #F1C40F 25% 50%, #2ECC71 50% 75%, #3498DB 75%);">
-        <span class="corner-top" style="font-size: 11px;">WILD</span>
-        <span class="main-symbol" style="color: #333; font-size: 40px; font-weight: 900;">WILD</span>
-        <span class="corner-bottom" style="font-size: 11px;">WILD</span>
+        <span class="logo">UNO</span>
+        <span class="number" style="font-size: 40px; color: #333;">WILD</span>
       </div>
     </div>
     
@@ -344,43 +260,33 @@
 
       function Card({ card, onClick, className = '' }) {
         const colorMap = {
-          red: { bg: 'linear-gradient(135deg, #E74C3C, #C0392B)', text: '#E74C3C' },
-          yellow: { bg: 'linear-gradient(135deg, #F1C40F, #F39C12)', text: '#F1C40F' },
-          green: { bg: 'linear-gradient(135deg, #2ECC71, #27AE60)', text: '#2ECC71' },
-          blue: { bg: 'linear-gradient(135deg, #3498DB, #2980B9)', text: '#3498DB' },
+          red: 'linear-gradient(135deg, #E74C3C, #C0392B)',
+          yellow: 'linear-gradient(135deg, #F1C40F, #F39C12)',
+          green: 'linear-gradient(135deg, #2ECC71, #27AE60)',
+          blue: 'linear-gradient(135deg, #3498DB, #2980B9)',
         };
         
-        const colors = colorMap[card.color] || { bg: 'linear-gradient(135deg, #2c3e50, #34495e)', text: '#95a5a6' };
+        const bg = colorMap[card.color] || 'linear-gradient(135deg, #2c3e50, #34495e)';
         
         let displayValue = card.value;
-        let cornerValue = card.value;
-        let isReverse = false;
-        let fontSize = '52px';
-        let cornerFontSize = '14px';
+        let fontSize = '60px';
+        let textColor = 'white';
         
         if (card.value === 'draw2') {
           displayValue = '+2';
-          cornerValue = '+2';
-          fontSize = '48px';
-          cornerFontSize = '12px';
+          fontSize = '56px';
         } else if (card.value === 'draw4') {
           displayValue = '+4';
-          cornerValue = '+4';
-          fontSize = '48px';
-          cornerFontSize = '12px';
+          fontSize = '56px';
         } else if (card.value === 'skip') {
           displayValue = '⊘';
-          cornerValue = '⊘';
         } else if (card.value === 'reverse') {
-          isReverse = true;
-          displayValue = '';
-          cornerValue = '';
+          displayValue = '↻↺';
+          fontSize = '40px';
         } else if (card.value === 'wild') {
           displayValue = 'WILD';
-          cornerValue = 'WILD';
           fontSize = '32px';
-          cornerFontSize = '9px';
-          colors.text = '#333';
+          textColor = '#333';
         }
         
         return React.createElement(
@@ -388,20 +294,13 @@
           {
             onClick: onClick,
             className: `game-card ${className}`,
-            style: { background: colors.bg }
+            style: { background: bg }
           },
+          React.createElement('span', { className: 'logo' }, 'UNO'),
           React.createElement('span', { 
-            className: isReverse ? 'corner-top symbol-reverse' : 'corner-top',
-            style: { fontSize: cornerFontSize }
-          }, cornerValue),
-          React.createElement('span', { 
-            className: isReverse ? 'main-symbol symbol-reverse' : 'main-symbol',
-            style: { color: colors.text, fontSize: fontSize }
-          }, displayValue),
-          React.createElement('span', { 
-            className: isReverse ? 'corner-bottom symbol-reverse' : 'corner-bottom',
-            style: { fontSize: cornerFontSize }
-          }, cornerValue)
+            className: 'number',
+            style: { fontSize: fontSize, color: textColor }
+          }, displayValue)
         );
       }
 
@@ -490,13 +389,13 @@
               'div',
               { className: 'glass-card rounded-3xl p-8 md:p-12 max-w-md w-full slide-in' },
               React.createElement('h1', { className: 'text-center mb-2 uno-logo' }, 'UNO'),
-              React.createElement('p', { className: 'text-center subtitle text-xl md:text-2xl mb-6 font-bold' }, 'Online Multiplayer Card Game'),
+              React.createElement('p', { className: 'text-center subtitle text-xl md:text-2xl mb-6 font-bold' }, 'Multiplayer for AI Agents'),
               React.createElement(
                 'div',
                 { className: 'mb-8 text-center' },
-                React.createElement('p', { className: 'info-text text-sm md:text-base mb-3' }, '🎴 Play the classic UNO card game online with anyone, anywhere'),
-                React.createElement('p', { className: 'info-text text-sm md:text-base mb-3' }, '👥 2-10 players • Real-time multiplayer • Official UNO rules'),
-                React.createElement('p', { className: 'info-text text-sm md:text-base' }, 'Match colors, play action cards (Skip, Reverse, +2), and be first to empty your hand!')
+                React.createElement('p', { className: 'info-text text-sm md:text-base mb-3' }, '🤖 Built for AI agents on Moltbook and beyond'),
+                React.createElement('p', { className: 'info-text text-sm md:text-base mb-3' }, '👥 2-10 players • Real-time • Humans welcome too!'),
+                React.createElement('p', { className: 'info-text text-sm md:text-base' }, 'Match colors, play action cards, be first to empty your hand!')
               ),
               React.createElement('input', {
                 type: 'text',
@@ -594,7 +493,7 @@
                     'p',
                     { className: 'text-lg md:text-xl text-white text-center mt-4' },
                     'Current Color: ',
-                    React.createElement('span', { className: `font-bold ${currentGame?.currentColor === 'red' ? 'text-uno-red' : currentGame?.currentColor === 'yellow' ? 'text-uno-yellow' : currentGame?.currentColor === 'green' ? 'text-uno-green' : 'text-uno-blue'}` }, currentGame?.currentColor?.toUpperCase())
+                    React.createElement('span', { className: 'font-bold', style: { color: currentGame?.currentColor === 'red' ? '#E74C3C' : currentGame?.currentColor === 'yellow' ? '#F1C40F' : currentGame?.currentColor === 'green' ? '#2ECC71' : '#3498DB' } }, currentGame?.currentColor?.toUpperCase())
                   )
                 ),
                 React.createElement(
