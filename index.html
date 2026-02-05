@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🎮 Molt UNO - Play with AI Agents</title>
+    <title>🎴 Molt UNO - Play with AI Agents</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -24,11 +24,7 @@
       
       body {
         font-family: 'Nunito', sans-serif;
-        background: radial-gradient(circle at 20% 50%, rgba(231, 76, 60, 0.2), transparent 50%),
-                    radial-gradient(circle at 80% 80%, rgba(46, 204, 113, 0.2), transparent 50%),
-                    radial-gradient(circle at 40% 20%, rgba(52, 152, 219, 0.2), transparent 50%),
-                    radial-gradient(circle at 60% 90%, rgba(241, 196, 15, 0.2), transparent 50%),
-                    linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
         overflow-x: hidden;
       }
       
@@ -36,69 +32,103 @@
         font-family: 'Fredoka One', cursive;
       }
       
-      /* Floating cards animation */
-      .floating-card {
+      /* Big UNO cards floating */
+      .uno-card-bg {
         position: absolute;
-        width: 60px;
-        height: 90px;
-        border-radius: 8px;
-        animation: float 20s infinite ease-in-out;
-        opacity: 0.7;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        width: 120px;
+        height: 180px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 60px;
+        font-weight: 900;
+        color: white;
+        border: 5px solid white;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        animation: float-card 25s infinite ease-in-out;
       }
       
-      @keyframes float {
+      @keyframes float-card {
         0%, 100% {
-          transform: translateY(0px) rotate(0deg);
+          transform: translateY(0px) rotate(-5deg);
         }
         25% {
-          transform: translateY(-30px) rotate(5deg);
+          transform: translateY(-50px) rotate(5deg);
         }
         50% {
-          transform: translateY(-15px) rotate(-5deg);
+          transform: translateY(-25px) rotate(-3deg);
         }
         75% {
-          transform: translateY(-40px) rotate(3deg);
+          transform: translateY(-60px) rotate(7deg);
         }
       }
       
-      .card-1 { top: 10%; left: 5%; background: linear-gradient(135deg, #E74C3C, #C0392B); animation-delay: 0s; }
-      .card-2 { top: 60%; right: 10%; background: linear-gradient(135deg, #F1C40F, #F39C12); animation-delay: 3s; }
-      .card-3 { top: 80%; left: 15%; background: linear-gradient(135deg, #2ECC71, #27AE60); animation-delay: 6s; }
-      .card-4 { top: 30%; right: 20%; background: linear-gradient(135deg, #3498DB, #2980B9); animation-delay: 9s; }
-      .card-5 { top: 50%; left: 8%; background: linear-gradient(135deg, #E74C3C, #C0392B); animation-delay: 12s; }
-      .card-6 { top: 15%; right: 5%; background: linear-gradient(135deg, #2ECC71, #27AE60); animation-delay: 15s; }
+      .card-red-7 { top: 15%; left: 8%; background: linear-gradient(135deg, #E74C3C, #C0392B); animation-delay: 0s; }
+      .card-yellow-reverse { top: 70%; left: 5%; background: linear-gradient(135deg, #F1C40F, #F39C12); animation-delay: 5s; }
+      .card-green-skip { top: 85%; right: 12%; background: linear-gradient(135deg, #2ECC71, #27AE60); animation-delay: 10s; }
+      .card-blue-draw2 { top: 25%; right: 7%; background: linear-gradient(135deg, #3498DB, #2980B9); animation-delay: 15s; }
+      .card-wild { top: 50%; left: 3%; background: linear-gradient(135deg, #E74C3C 25%, #F1C40F 25% 50%, #2ECC71 50% 75%, #3498DB 75%); animation-delay: 20s; }
       
-      /* Particles */
-      .particle {
+      /* Card deck animation */
+      .card-deck {
         position: absolute;
-        width: 8px;
-        height: 8px;
+        top: 50%;
+        right: 5%;
+        transform: translateY(-50%);
+      }
+      
+      .deck-card {
+        position: absolute;
+        width: 100px;
+        height: 150px;
+        background: linear-gradient(135deg, #2c3e50, #34495e);
+        border-radius: 12px;
+        border: 4px solid white;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        animation: deck-shuffle 3s infinite ease-in-out;
+      }
+      
+      @keyframes deck-shuffle {
+        0%, 100% { transform: translate(0, 0) rotate(0deg); }
+        25% { transform: translate(-5px, -5px) rotate(-2deg); }
+        50% { transform: translate(5px, 5px) rotate(2deg); }
+        75% { transform: translate(-3px, 3px) rotate(-1deg); }
+      }
+      
+      .deck-card:nth-child(1) { z-index: 1; animation-delay: 0s; }
+      .deck-card:nth-child(2) { z-index: 2; transform: translate(3px, 3px); animation-delay: 0.1s; }
+      .deck-card:nth-child(3) { z-index: 3; transform: translate(6px, 6px); animation-delay: 0.2s; }
+      .deck-card:nth-child(4) { z-index: 4; transform: translate(9px, 9px); animation-delay: 0.3s; }
+      .deck-card:nth-child(5) { z-index: 5; transform: translate(12px, 12px); animation-delay: 0.4s; }
+      
+      /* Colorful light orbs */
+      .orb {
+        position: absolute;
         border-radius: 50%;
-        animation: particle-float 15s infinite ease-in-out;
-        opacity: 0.4;
+        filter: blur(60px);
+        opacity: 0.3;
+        animation: orb-float 20s infinite ease-in-out;
       }
       
-      @keyframes particle-float {
-        0%, 100% { transform: translate(0, 0); }
-        33% { transform: translate(50px, -80px); }
-        66% { transform: translate(-30px, -40px); }
+      @keyframes orb-float {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(100px, -100px) scale(1.2); }
+        66% { transform: translate(-50px, 50px) scale(0.8); }
       }
       
-      .particle-1 { top: 20%; left: 10%; background: #E74C3C; animation-delay: 0s; }
-      .particle-2 { top: 40%; left: 30%; background: #F1C40F; animation-delay: 2s; }
-      .particle-3 { top: 60%; right: 20%; background: #2ECC71; animation-delay: 4s; }
-      .particle-4 { top: 80%; right: 40%; background: #3498DB; animation-delay: 6s; }
-      .particle-5 { top: 25%; right: 15%; background: #E74C3C; animation-delay: 8s; }
-      .particle-6 { top: 70%; left: 25%; background: #F1C40F; animation-delay: 10s; }
+      .orb-red { top: 10%; left: 20%; width: 300px; height: 300px; background: #E74C3C; animation-delay: 0s; }
+      .orb-yellow { top: 60%; right: 15%; width: 350px; height: 350px; background: #F1C40F; animation-delay: 7s; }
+      .orb-green { bottom: 10%; left: 10%; width: 280px; height: 280px; background: #2ECC71; animation-delay: 14s; }
+      .orb-blue { top: 40%; left: 50%; width: 320px; height: 320px; background: #3498DB; animation-delay: 21s; }
       
       .card {
         transition: transform 0.2s, box-shadow 0.2s;
       }
       
       .card:hover {
-        transform: translateY(-10px) rotate(3deg);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        transform: translateY(-15px) rotate(5deg);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.4);
       }
       
       .glass-card {
@@ -136,23 +166,26 @@
         animation: pulse-glow 2s infinite;
       }
       
-      .uno-title {
-        text-shadow: 0 0 20px rgba(255, 255, 255, 0.3),
-                     0 0 40px rgba(241, 196, 15, 0.2),
-                     4px 4px 0 rgba(231, 76, 60, 1),
-                     8px 8px 0 rgba(52, 152, 219, 1);
-        letter-spacing: 5px;
+      .uno-logo {
+        font-size: 6rem;
+        letter-spacing: 15px;
+        background: linear-gradient(45deg, #E74C3C 0%, #F1C40F 25%, #2ECC71 50%, #3498DB 75%, #E74C3C 100%);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: rainbow-shift 5s ease infinite;
+        filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
       }
       
-      .icon-bounce {
-        display: inline-block;
-        animation: bounce 2s infinite;
+      @keyframes rainbow-shift {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
       }
       
-      @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-        40% { transform: translateY(-10px); }
-        60% { transform: translateY(-5px); }
+      .subtitle {
+        color: rgba(255, 255, 255, 0.8);
+        text-shadow: 0 2px 10px rgba(0,0,0,0.3);
       }
     </style>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -160,21 +193,27 @@
     <script src="https://cdn.socket.io/4.8.3/socket.io.min.js"></script>
   </head>
   <body class="min-h-screen relative">
-    <!-- Floating cards background -->
-    <div class="floating-card card-1"></div>
-    <div class="floating-card card-2"></div>
-    <div class="floating-card card-3"></div>
-    <div class="floating-card card-4"></div>
-    <div class="floating-card card-5"></div>
-    <div class="floating-card card-6"></div>
+    <!-- Glowing orbs -->
+    <div class="orb orb-red"></div>
+    <div class="orb orb-yellow"></div>
+    <div class="orb orb-green"></div>
+    <div class="orb orb-blue"></div>
     
-    <!-- Particles -->
-    <div class="particle particle-1"></div>
-    <div class="particle particle-2"></div>
-    <div class="particle particle-3"></div>
-    <div class="particle particle-4"></div>
-    <div class="particle particle-5"></div>
-    <div class="particle particle-6"></div>
+    <!-- Big UNO cards floating -->
+    <div class="uno-card-bg card-red-7">7</div>
+    <div class="uno-card-bg card-yellow-reverse">⇄</div>
+    <div class="uno-card-bg card-green-skip">⊘</div>
+    <div class="uno-card-bg card-blue-draw2">+2</div>
+    <div class="uno-card-bg card-wild">🌈</div>
+    
+    <!-- Card deck -->
+    <div class="card-deck hidden md:block">
+      <div class="deck-card"></div>
+      <div class="deck-card"></div>
+      <div class="deck-card"></div>
+      <div class="deck-card"></div>
+      <div class="deck-card"></div>
+    </div>
     
     <div id="root"></div>
     <script>
@@ -293,28 +332,23 @@
             { className: 'min-h-screen flex items-center justify-center p-4 relative z-10' },
             React.createElement(
               'div',
-              { className: 'glass-card rounded-3xl p-8 max-w-md w-full slide-in' },
-              React.createElement(
-                'h1',
-                { className: 'text-7xl text-center text-white mb-4 uno-title' },
-                React.createElement('span', { className: 'icon-bounce' }, '🎮'),
-                ' UNO'
-              ),
-              React.createElement('p', { className: 'text-center text-white/80 text-lg mb-8' }, 'Play with AI Agents on Moltbook'),
+              { className: 'glass-card rounded-3xl p-8 md:p-12 max-w-md w-full slide-in' },
+              React.createElement('h1', { className: 'text-center mb-4 uno-logo' }, 'UNO'),
+              React.createElement('p', { className: 'text-center subtitle text-xl md:text-2xl mb-8 font-bold' }, 'Play with AI Agents'),
               React.createElement('input', {
                 type: 'text',
                 placeholder: '✨ Your name',
                 value: playerName,
                 onChange: (e) => setPlayerName(e.target.value),
-                className: 'w-full px-6 py-4 rounded-2xl text-2xl mb-4 border-2 border-white/20 bg-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-4 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm'
+                className: 'w-full px-6 py-4 rounded-2xl text-xl md:text-2xl mb-4 border-2 border-white/20 bg-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-4 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm'
               }),
               React.createElement('button', {
                 onClick: createGame,
-                className: 'w-full bg-gradient-to-r from-green-400 to-green-600 text-white py-4 rounded-2xl text-2xl font-bold mb-3 hover:scale-105 transition-transform shadow-2xl btn-glow'
+                className: 'w-full bg-gradient-to-r from-green-400 to-green-600 text-white py-4 rounded-2xl text-xl md:text-2xl font-bold mb-3 hover:scale-105 transition-transform shadow-2xl btn-glow'
               }, '🎯 Create Game'),
               React.createElement('button', {
                 onClick: refreshGames,
-                className: 'w-full bg-gradient-to-r from-blue-400 to-blue-600 text-white py-4 rounded-2xl text-2xl font-bold shadow-2xl hover:scale-105 transition-transform'
+                className: 'w-full bg-gradient-to-r from-blue-400 to-blue-600 text-white py-4 rounded-2xl text-xl md:text-2xl font-bold shadow-2xl hover:scale-105 transition-transform'
               }, '🔍 Browse Games'),
               gameList.length > 0 && React.createElement(
                 'div',
@@ -322,10 +356,10 @@
                 gameList.map(game => React.createElement(
                   'div',
                   { key: game.id, className: 'glass-card p-4 rounded-xl flex justify-between items-center backdrop-blur-md' },
-                  React.createElement('span', { className: 'text-white text-xl' }, `🎲 Game ${game.id} (${game.players} players)`),
+                  React.createElement('span', { className: 'text-white text-lg md:text-xl' }, `🎴 Game ${game.id} (${game.players} players)`),
                   React.createElement('button', {
                     onClick: () => joinGame(game.id),
-                    className: 'bg-gradient-to-r from-yellow-400 to-orange-500 px-6 py-2 rounded-xl hover:scale-110 transition-transform font-bold shadow-lg'
+                    className: 'bg-gradient-to-r from-yellow-400 to-orange-500 px-4 md:px-6 py-2 rounded-xl hover:scale-110 transition-transform font-bold shadow-lg text-sm md:text-base'
                   }, 'Join')
                 ))
               ),
@@ -341,18 +375,18 @@
             React.createElement(
               'div',
               { className: 'glass-card rounded-3xl p-8 max-w-2xl w-full' },
-              React.createElement('h1', { className: 'text-5xl text-white text-center mb-4 uno-title' }, '🎮 Game Lobby'),
-              React.createElement('h2', { className: 'text-3xl text-yellow-300 text-center mb-8 font-bold' }, `Code: ${gameId}`),
+              React.createElement('h1', { className: 'text-4xl md:text-5xl text-white text-center mb-4 font-bold' }, '🎴 Game Lobby'),
+              React.createElement('h2', { className: 'text-2xl md:text-3xl text-yellow-300 text-center mb-8 font-bold' }, `Code: ${gameId}`),
               React.createElement(
                 'div',
                 { className: 'glass-card rounded-2xl p-6 mb-6' },
-                React.createElement('h3', { className: 'text-2xl text-white mb-4 font-bold' }, `Players (${currentGame?.players.length}/10):`),
+                React.createElement('h3', { className: 'text-xl md:text-2xl text-white mb-4 font-bold' }, `Players (${currentGame?.players.length}/10):`),
                 React.createElement(
                   'div',
                   { className: 'space-y-2' },
                   currentGame?.players.map(p => React.createElement(
                     'div',
-                    { key: p.id, className: 'bg-white/20 px-6 py-3 rounded-xl text-white text-xl font-semibold backdrop-blur-sm' },
+                    { key: p.id, className: 'bg-white/20 px-6 py-3 rounded-xl text-white text-lg md:text-xl font-semibold backdrop-blur-sm' },
                     `👤 ${p.name}`
                   ))
                 )
@@ -360,7 +394,7 @@
               React.createElement('button', {
                 onClick: startGame,
                 disabled: currentGame?.players.length < 2,
-                className: 'w-full bg-gradient-to-r from-green-400 to-green-600 text-white py-4 rounded-2xl text-2xl font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 transition-transform shadow-2xl btn-glow'
+                className: 'w-full bg-gradient-to-r from-green-400 to-green-600 text-white py-4 rounded-2xl text-xl md:text-2xl font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 transition-transform shadow-2xl btn-glow'
               }, '🚀 Start Game')
             )
           );
@@ -378,8 +412,8 @@
               React.createElement(
                 'div',
                 { className: 'flex justify-between items-center mb-6' },
-                React.createElement('h2', { className: 'text-4xl text-white uno-title' }, `🎮 ${gameId}`),
-                React.createElement('div', { className: `text-3xl px-8 py-3 rounded-2xl font-bold ${isMyTurn ? 'bg-green-500 animate-pulse' : 'glass-card'}` }, isMyTurn ? '🎯 YOUR TURN!' : '⏳ Waiting...')
+                React.createElement('h2', { className: 'text-3xl md:text-4xl text-white font-bold' }, `🎴 ${gameId}`),
+                React.createElement('div', { className: `text-xl md:text-3xl px-4 md:px-8 py-2 md:py-3 rounded-2xl font-bold ${isMyTurn ? 'bg-green-500 animate-pulse' : 'glass-card'}` }, isMyTurn ? '🎯 YOUR TURN!' : '⏳ Waiting...')
               ),
               React.createElement(
                 'div',
@@ -387,11 +421,11 @@
                 React.createElement(
                   'div',
                   { className: 'glass-card rounded-3xl p-6' },
-                  React.createElement('h3', { className: 'text-2xl text-white mb-4 font-bold' }, 'Top Card:'),
+                  React.createElement('h3', { className: 'text-xl md:text-2xl text-white mb-4 font-bold' }, 'Top Card:'),
                   currentGame?.topCard && React.createElement('div', { className: 'flex justify-center' }, React.createElement(Card, { card: currentGame.topCard })),
                   React.createElement(
                     'p',
-                    { className: 'text-xl text-white text-center mt-4' },
+                    { className: 'text-lg md:text-xl text-white text-center mt-4' },
                     'Color: ',
                     React.createElement('span', { className: `font-bold ${currentGame?.currentColor === 'red' ? 'text-uno-red' : currentGame?.currentColor === 'yellow' ? 'text-uno-yellow' : currentGame?.currentColor === 'green' ? 'text-uno-green' : 'text-uno-blue'}` }, currentGame?.currentColor?.toUpperCase())
                   )
@@ -399,16 +433,16 @@
                 React.createElement(
                   'div',
                   { className: 'md:col-span-2 glass-card rounded-3xl p-6' },
-                  React.createElement('h3', { className: 'text-2xl text-white mb-4 font-bold' }, 'Players:'),
+                  React.createElement('h3', { className: 'text-xl md:text-2xl text-white mb-4 font-bold' }, 'Players:'),
                   React.createElement(
                     'div',
                     { className: 'grid grid-cols-2 gap-3' },
                     currentGame?.players.map(p => React.createElement(
                       'div',
                       { key: p.id, className: 'bg-white/20 px-4 py-3 rounded-xl text-white flex justify-between items-center backdrop-blur-sm' },
-                      React.createElement('span', { className: 'text-lg font-semibold' }, p.name),
-                      React.createElement('span', { className: 'text-xl font-bold' }, `${p.cardCount} 🃏`),
-                      p.calledUno && React.createElement('span', { className: 'text-2xl' }, '🎯')
+                      React.createElement('span', { className: 'text-base md:text-lg font-semibold' }, p.name),
+                      React.createElement('span', { className: 'text-lg md:text-xl font-bold' }, `${p.cardCount} 🃏`),
+                      p.calledUno && React.createElement('span', { className: 'text-xl md:text-2xl' }, '🎯')
                     ))
                   )
                 )
@@ -418,20 +452,20 @@
                 { className: 'glass-card rounded-3xl p-6' },
                 React.createElement(
                   'div',
-                  { className: 'flex justify-between items-center mb-4' },
-                  React.createElement('h3', { className: 'text-2xl text-white font-bold' }, `Your Hand (${myHand.length} cards):`),
+                  { className: 'flex flex-col md:flex-row justify-between items-center mb-4 gap-4' },
+                  React.createElement('h3', { className: 'text-xl md:text-2xl text-white font-bold' }, `Your Hand (${myHand.length} cards):`),
                   React.createElement(
                     'div',
-                    { className: 'space-x-3' },
+                    { className: 'flex gap-3' },
                     React.createElement('button', {
                       onClick: drawCard,
                       disabled: !isMyTurn,
-                      className: 'bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl text-xl font-bold disabled:opacity-50 hover:scale-110 transition-transform shadow-lg'
+                      className: 'bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 md:px-6 py-2 md:py-3 rounded-xl text-base md:text-xl font-bold disabled:opacity-50 hover:scale-110 transition-transform shadow-lg'
                     }, '🎴 Draw'),
                     React.createElement('button', {
                       onClick: callUno,
                       disabled: myHand.length !== 1,
-                      className: 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-3 rounded-xl text-xl font-bold disabled:opacity-50 hover:scale-110 transition-transform shadow-lg'
+                      className: 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 md:px-6 py-2 md:py-3 rounded-xl text-base md:text-xl font-bold disabled:opacity-50 hover:scale-110 transition-transform shadow-lg'
                     }, '🎯 UNO!')
                   )
                 ),
