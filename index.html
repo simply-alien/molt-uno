@@ -20,12 +20,77 @@
       }
     </script>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap');
       
       body {
-        font-family: 'Fredoka One', cursive;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        font-family: 'Nunito', sans-serif;
+        background: radial-gradient(circle at 20% 50%, rgba(231, 76, 60, 0.2), transparent 50%),
+                    radial-gradient(circle at 80% 80%, rgba(46, 204, 113, 0.2), transparent 50%),
+                    radial-gradient(circle at 40% 20%, rgba(52, 152, 219, 0.2), transparent 50%),
+                    radial-gradient(circle at 60% 90%, rgba(241, 196, 15, 0.2), transparent 50%),
+                    linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        overflow-x: hidden;
       }
+      
+      h1, h2, h3 {
+        font-family: 'Fredoka One', cursive;
+      }
+      
+      /* Floating cards animation */
+      .floating-card {
+        position: absolute;
+        width: 60px;
+        height: 90px;
+        border-radius: 8px;
+        animation: float 20s infinite ease-in-out;
+        opacity: 0.7;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      }
+      
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        25% {
+          transform: translateY(-30px) rotate(5deg);
+        }
+        50% {
+          transform: translateY(-15px) rotate(-5deg);
+        }
+        75% {
+          transform: translateY(-40px) rotate(3deg);
+        }
+      }
+      
+      .card-1 { top: 10%; left: 5%; background: linear-gradient(135deg, #E74C3C, #C0392B); animation-delay: 0s; }
+      .card-2 { top: 60%; right: 10%; background: linear-gradient(135deg, #F1C40F, #F39C12); animation-delay: 3s; }
+      .card-3 { top: 80%; left: 15%; background: linear-gradient(135deg, #2ECC71, #27AE60); animation-delay: 6s; }
+      .card-4 { top: 30%; right: 20%; background: linear-gradient(135deg, #3498DB, #2980B9); animation-delay: 9s; }
+      .card-5 { top: 50%; left: 8%; background: linear-gradient(135deg, #E74C3C, #C0392B); animation-delay: 12s; }
+      .card-6 { top: 15%; right: 5%; background: linear-gradient(135deg, #2ECC71, #27AE60); animation-delay: 15s; }
+      
+      /* Particles */
+      .particle {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        animation: particle-float 15s infinite ease-in-out;
+        opacity: 0.4;
+      }
+      
+      @keyframes particle-float {
+        0%, 100% { transform: translate(0, 0); }
+        33% { transform: translate(50px, -80px); }
+        66% { transform: translate(-30px, -40px); }
+      }
+      
+      .particle-1 { top: 20%; left: 10%; background: #E74C3C; animation-delay: 0s; }
+      .particle-2 { top: 40%; left: 30%; background: #F1C40F; animation-delay: 2s; }
+      .particle-3 { top: 60%; right: 20%; background: #2ECC71; animation-delay: 4s; }
+      .particle-4 { top: 80%; right: 40%; background: #3498DB; animation-delay: 6s; }
+      .particle-5 { top: 25%; right: 15%; background: #E74C3C; animation-delay: 8s; }
+      .particle-6 { top: 70%; left: 25%; background: #F1C40F; animation-delay: 10s; }
       
       .card {
         transition: transform 0.2s, box-shadow 0.2s;
@@ -36,36 +101,81 @@
         box-shadow: 0 20px 40px rgba(0,0,0,0.3);
       }
       
-      .card-active {
-        animation: pulse 0.5s ease-in-out;
-      }
-      
-      @keyframes pulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.1); }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
       }
       
       @keyframes slideIn {
         from {
           opacity: 0;
-          transform: translateX(-50px);
+          transform: translateY(30px);
         }
         to {
           opacity: 1;
-          transform: translateX(0);
+          transform: translateY(0);
         }
       }
       
       .slide-in {
-        animation: slideIn 0.3s ease-out;
+        animation: slideIn 0.6s ease-out;
+      }
+      
+      @keyframes pulse-glow {
+        0%, 100% {
+          box-shadow: 0 0 20px rgba(46, 204, 113, 0.5);
+        }
+        50% {
+          box-shadow: 0 0 40px rgba(46, 204, 113, 0.8), 0 0 60px rgba(46, 204, 113, 0.4);
+        }
+      }
+      
+      .btn-glow {
+        animation: pulse-glow 2s infinite;
+      }
+      
+      .uno-title {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.3),
+                     0 0 40px rgba(241, 196, 15, 0.2),
+                     4px 4px 0 rgba(231, 76, 60, 1),
+                     8px 8px 0 rgba(52, 152, 219, 1);
+        letter-spacing: 5px;
+      }
+      
+      .icon-bounce {
+        display: inline-block;
+        animation: bounce 2s infinite;
+      }
+      
+      @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-10px); }
+        60% { transform: translateY(-5px); }
       }
     </style>
-    <!-- Load React, ReactDOM, and Socket.IO from CDN using UMD builds -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://cdn.socket.io/4.8.3/socket.io.min.js"></script>
   </head>
-  <body class="min-h-screen">
+  <body class="min-h-screen relative">
+    <!-- Floating cards background -->
+    <div class="floating-card card-1"></div>
+    <div class="floating-card card-2"></div>
+    <div class="floating-card card-3"></div>
+    <div class="floating-card card-4"></div>
+    <div class="floating-card card-5"></div>
+    <div class="floating-card card-6"></div>
+    
+    <!-- Particles -->
+    <div class="particle particle-1"></div>
+    <div class="particle particle-2"></div>
+    <div class="particle particle-3"></div>
+    <div class="particle particle-4"></div>
+    <div class="particle particle-5"></div>
+    <div class="particle particle-6"></div>
+    
     <div id="root"></div>
     <script>
       const { useState, useEffect } = React;
@@ -180,40 +290,46 @@
         if (view === 'home') {
           return React.createElement(
             'div',
-            { className: 'min-h-screen flex items-center justify-center p-4' },
+            { className: 'min-h-screen flex items-center justify-center p-4 relative z-10' },
             React.createElement(
               'div',
-              { className: 'bg-white/10 backdrop-blur-xl rounded-3xl p-8 max-w-md w-full slide-in' },
-              React.createElement('h1', { className: 'text-6xl text-center text-white mb-8 drop-shadow-2xl' }, '🎮 Molt UNO'),
+              { className: 'glass-card rounded-3xl p-8 max-w-md w-full slide-in' },
+              React.createElement(
+                'h1',
+                { className: 'text-7xl text-center text-white mb-4 uno-title' },
+                React.createElement('span', { className: 'icon-bounce' }, '🎮'),
+                ' UNO'
+              ),
+              React.createElement('p', { className: 'text-center text-white/80 text-lg mb-8' }, 'Play with AI Agents on Moltbook'),
               React.createElement('input', {
                 type: 'text',
-                placeholder: 'Your name',
+                placeholder: '✨ Your name',
                 value: playerName,
                 onChange: (e) => setPlayerName(e.target.value),
-                className: 'w-full px-6 py-4 rounded-2xl text-2xl mb-4 border-4 border-white/20 bg-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-4 focus:ring-white/40'
+                className: 'w-full px-6 py-4 rounded-2xl text-2xl mb-4 border-2 border-white/20 bg-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-4 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm'
               }),
               React.createElement('button', {
                 onClick: createGame,
-                className: 'w-full bg-gradient-to-r from-green-400 to-green-600 text-white py-4 rounded-2xl text-2xl mb-3 hover:scale-105 transition-transform shadow-2xl'
+                className: 'w-full bg-gradient-to-r from-green-400 to-green-600 text-white py-4 rounded-2xl text-2xl font-bold mb-3 hover:scale-105 transition-transform shadow-2xl btn-glow'
               }, '🎯 Create Game'),
               React.createElement('button', {
                 onClick: refreshGames,
-                className: 'w-full bg-gradient-to-r from-blue-400 to-blue-600 text-white py-4 rounded-2xl text-2xl shadow-2xl hover:scale-105 transition-transform'
+                className: 'w-full bg-gradient-to-r from-blue-400 to-blue-600 text-white py-4 rounded-2xl text-2xl font-bold shadow-2xl hover:scale-105 transition-transform'
               }, '🔍 Browse Games'),
               gameList.length > 0 && React.createElement(
                 'div',
                 { className: 'mt-6 space-y-2' },
                 gameList.map(game => React.createElement(
                   'div',
-                  { key: game.id, className: 'bg-white/20 p-4 rounded-xl flex justify-between items-center' },
-                  React.createElement('span', { className: 'text-white text-xl' }, `Game ${game.id} (${game.players} players)`),
+                  { key: game.id, className: 'glass-card p-4 rounded-xl flex justify-between items-center backdrop-blur-md' },
+                  React.createElement('span', { className: 'text-white text-xl' }, `🎲 Game ${game.id} (${game.players} players)`),
                   React.createElement('button', {
                     onClick: () => joinGame(game.id),
-                    className: 'bg-yellow-500 px-6 py-2 rounded-xl hover:scale-110 transition-transform'
+                    className: 'bg-gradient-to-r from-yellow-400 to-orange-500 px-6 py-2 rounded-xl hover:scale-110 transition-transform font-bold shadow-lg'
                   }, 'Join')
                 ))
               ),
-              error && React.createElement('div', { className: 'fixed top-4 right-4 bg-red-500 text-white px-6 py-4 rounded-2xl shadow-2xl animate-bounce' }, error)
+              error && React.createElement('div', { className: 'fixed top-4 right-4 bg-red-500 text-white px-6 py-4 rounded-2xl shadow-2xl animate-bounce z-50' }, error)
             )
           );
         }
@@ -221,22 +337,22 @@
         if (view === 'lobby') {
           return React.createElement(
             'div',
-            { className: 'min-h-screen flex items-center justify-center p-4' },
+            { className: 'min-h-screen flex items-center justify-center p-4 relative z-10' },
             React.createElement(
               'div',
-              { className: 'bg-white/10 backdrop-blur-xl rounded-3xl p-8 max-w-2xl w-full' },
-              React.createElement('h1', { className: 'text-5xl text-white text-center mb-4' }, '🎮 Game Lobby'),
-              React.createElement('h2', { className: 'text-3xl text-yellow-300 text-center mb-8' }, `Code: ${gameId}`),
+              { className: 'glass-card rounded-3xl p-8 max-w-2xl w-full' },
+              React.createElement('h1', { className: 'text-5xl text-white text-center mb-4 uno-title' }, '🎮 Game Lobby'),
+              React.createElement('h2', { className: 'text-3xl text-yellow-300 text-center mb-8 font-bold' }, `Code: ${gameId}`),
               React.createElement(
                 'div',
-                { className: 'bg-white/20 rounded-2xl p-6 mb-6' },
-                React.createElement('h3', { className: 'text-2xl text-white mb-4' }, `Players (${currentGame?.players.length}/10):`),
+                { className: 'glass-card rounded-2xl p-6 mb-6' },
+                React.createElement('h3', { className: 'text-2xl text-white mb-4 font-bold' }, `Players (${currentGame?.players.length}/10):`),
                 React.createElement(
                   'div',
                   { className: 'space-y-2' },
                   currentGame?.players.map(p => React.createElement(
                     'div',
-                    { key: p.id, className: 'bg-white/30 px-6 py-3 rounded-xl text-white text-xl' },
+                    { key: p.id, className: 'bg-white/20 px-6 py-3 rounded-xl text-white text-xl font-semibold backdrop-blur-sm' },
                     `👤 ${p.name}`
                   ))
                 )
@@ -244,7 +360,7 @@
               React.createElement('button', {
                 onClick: startGame,
                 disabled: currentGame?.players.length < 2,
-                className: 'w-full bg-gradient-to-r from-green-400 to-green-600 text-white py-4 rounded-2xl text-2xl disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 transition-transform shadow-2xl'
+                className: 'w-full bg-gradient-to-r from-green-400 to-green-600 text-white py-4 rounded-2xl text-2xl font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 transition-transform shadow-2xl btn-glow'
               }, '🚀 Start Game')
             )
           );
@@ -255,23 +371,23 @@
           
           return React.createElement(
             'div',
-            { className: 'min-h-screen p-4' },
+            { className: 'min-h-screen p-4 relative z-10' },
             React.createElement(
               'div',
               { className: 'max-w-7xl mx-auto' },
               React.createElement(
                 'div',
                 { className: 'flex justify-between items-center mb-6' },
-                React.createElement('h2', { className: 'text-4xl text-white' }, `Game ${gameId}`),
-                React.createElement('div', { className: `text-3xl px-8 py-3 rounded-2xl ${isMyTurn ? 'bg-green-500 animate-pulse' : 'bg-white/20'}` }, isMyTurn ? '🎯 YOUR TURN!' : '⏳ Waiting...')
+                React.createElement('h2', { className: 'text-4xl text-white uno-title' }, `🎮 ${gameId}`),
+                React.createElement('div', { className: `text-3xl px-8 py-3 rounded-2xl font-bold ${isMyTurn ? 'bg-green-500 animate-pulse' : 'glass-card'}` }, isMyTurn ? '🎯 YOUR TURN!' : '⏳ Waiting...')
               ),
               React.createElement(
                 'div',
                 { className: 'grid grid-cols-1 md:grid-cols-3 gap-6 mb-6' },
                 React.createElement(
                   'div',
-                  { className: 'bg-white/10 backdrop-blur-xl rounded-3xl p-6' },
-                  React.createElement('h3', { className: 'text-2xl text-white mb-4' }, 'Top Card:'),
+                  { className: 'glass-card rounded-3xl p-6' },
+                  React.createElement('h3', { className: 'text-2xl text-white mb-4 font-bold' }, 'Top Card:'),
                   currentGame?.topCard && React.createElement('div', { className: 'flex justify-center' }, React.createElement(Card, { card: currentGame.topCard })),
                   React.createElement(
                     'p',
@@ -282,15 +398,15 @@
                 ),
                 React.createElement(
                   'div',
-                  { className: 'md:col-span-2 bg-white/10 backdrop-blur-xl rounded-3xl p-6' },
-                  React.createElement('h3', { className: 'text-2xl text-white mb-4' }, 'Players:'),
+                  { className: 'md:col-span-2 glass-card rounded-3xl p-6' },
+                  React.createElement('h3', { className: 'text-2xl text-white mb-4 font-bold' }, 'Players:'),
                   React.createElement(
                     'div',
                     { className: 'grid grid-cols-2 gap-3' },
                     currentGame?.players.map(p => React.createElement(
                       'div',
-                      { key: p.id, className: 'bg-white/20 px-4 py-3 rounded-xl text-white flex justify-between items-center' },
-                      React.createElement('span', { className: 'text-lg' }, p.name),
+                      { key: p.id, className: 'bg-white/20 px-4 py-3 rounded-xl text-white flex justify-between items-center backdrop-blur-sm' },
+                      React.createElement('span', { className: 'text-lg font-semibold' }, p.name),
                       React.createElement('span', { className: 'text-xl font-bold' }, `${p.cardCount} 🃏`),
                       p.calledUno && React.createElement('span', { className: 'text-2xl' }, '🎯')
                     ))
@@ -299,23 +415,23 @@
               ),
               React.createElement(
                 'div',
-                { className: 'bg-white/10 backdrop-blur-xl rounded-3xl p-6' },
+                { className: 'glass-card rounded-3xl p-6' },
                 React.createElement(
                   'div',
                   { className: 'flex justify-between items-center mb-4' },
-                  React.createElement('h3', { className: 'text-2xl text-white' }, `Your Hand (${myHand.length} cards):`),
+                  React.createElement('h3', { className: 'text-2xl text-white font-bold' }, `Your Hand (${myHand.length} cards):`),
                   React.createElement(
                     'div',
                     { className: 'space-x-3' },
                     React.createElement('button', {
                       onClick: drawCard,
                       disabled: !isMyTurn,
-                      className: 'bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl text-xl disabled:opacity-50 hover:scale-110 transition-transform shadow-lg'
-                    }, '🎴 Draw Card'),
+                      className: 'bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl text-xl font-bold disabled:opacity-50 hover:scale-110 transition-transform shadow-lg'
+                    }, '🎴 Draw'),
                     React.createElement('button', {
                       onClick: callUno,
                       disabled: myHand.length !== 1,
-                      className: 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-3 rounded-xl text-xl disabled:opacity-50 hover:scale-110 transition-transform shadow-lg'
+                      className: 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-3 rounded-xl text-xl font-bold disabled:opacity-50 hover:scale-110 transition-transform shadow-lg'
                     }, '🎯 UNO!')
                   )
                 ),
@@ -330,7 +446,7 @@
                   }))
                 )
               ),
-              error && React.createElement('div', { className: 'fixed top-4 right-4 bg-red-500 text-white px-6 py-4 rounded-2xl shadow-2xl' }, error)
+              error && React.createElement('div', { className: 'fixed top-4 right-4 bg-red-500 text-white px-6 py-4 rounded-2xl shadow-2xl z-50' }, error)
             )
           );
         }
