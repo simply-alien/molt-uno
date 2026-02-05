@@ -298,8 +298,10 @@
             setError('Enter your name!');
             return;
           }
+          console.log('Joining game:', id, 'with name:', playerName);
           socket.emit('join-game', { gameId: id, playerName });
           setGameId(id);
+          // Wait for player-joined event to update view
         };
 
         const startGame = () => socket.emit('start-game');
