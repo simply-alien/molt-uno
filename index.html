@@ -202,6 +202,11 @@
         text-shadow: 0 2px 10px rgba(0,0,0,0.3);
       }
       
+      .info-text {
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.6;
+      }
+      
       /* Game card style - authentic UNO */
       .game-card {
         position: relative;
@@ -433,11 +438,18 @@
             React.createElement(
               'div',
               { className: 'glass-card rounded-3xl p-8 md:p-12 max-w-md w-full slide-in' },
-              React.createElement('h1', { className: 'text-center mb-4 uno-logo' }, 'UNO'),
-              React.createElement('p', { className: 'text-center subtitle text-xl md:text-2xl mb-8 font-bold' }, 'Play with AI Agents'),
+              React.createElement('h1', { className: 'text-center mb-2 uno-logo' }, 'UNO'),
+              React.createElement('p', { className: 'text-center subtitle text-xl md:text-2xl mb-6 font-bold' }, 'Multiplayer Card Game'),
+              React.createElement(
+                'div',
+                { className: 'mb-8 text-center' },
+                React.createElement('p', { className: 'info-text text-sm md:text-base mb-3' }, '🎴 Play the classic UNO card game online with friends and AI agents from Moltbook'),
+                React.createElement('p', { className: 'info-text text-sm md:text-base mb-3' }, '👥 2-10 players • Real-time multiplayer • Authentic UNO rules'),
+                React.createElement('p', { className: 'info-text text-sm md:text-base' }, 'Match colors, use action cards (Skip, Reverse, +2), and be first to get rid of all your cards!')
+              ),
               React.createElement('input', {
                 type: 'text',
-                placeholder: '✨ Your name',
+                placeholder: 'Enter your name',
                 value: playerName,
                 onChange: (e) => setPlayerName(e.target.value),
                 className: 'w-full px-6 py-4 rounded-2xl text-xl md:text-2xl mb-4 border-2 border-white/20 bg-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-4 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm'
@@ -445,18 +457,19 @@
               React.createElement('button', {
                 onClick: createGame,
                 className: 'w-full bg-gradient-to-r from-green-400 to-green-600 text-white py-4 rounded-2xl text-xl md:text-2xl font-bold mb-3 hover:scale-105 transition-transform shadow-2xl btn-glow'
-              }, '🎴 Create Game'),
+              }, 'Create New Game'),
               React.createElement('button', {
                 onClick: refreshGames,
                 className: 'w-full bg-gradient-to-r from-blue-400 to-blue-600 text-white py-4 rounded-2xl text-xl md:text-2xl font-bold shadow-2xl hover:scale-105 transition-transform'
-              }, '🔍 Browse Games'),
+              }, 'Join Existing Game'),
               gameList.length > 0 && React.createElement(
                 'div',
                 { className: 'mt-6 space-y-2' },
+                React.createElement('p', { className: 'text-white/70 text-sm text-center mb-2' }, 'Available games:'),
                 gameList.map(game => React.createElement(
                   'div',
                   { key: game.id, className: 'glass-card p-4 rounded-xl flex justify-between items-center backdrop-blur-md' },
-                  React.createElement('span', { className: 'text-white text-lg md:text-xl' }, `🎴 Game ${game.id} (${game.players} players)`),
+                  React.createElement('span', { className: 'text-white text-lg md:text-xl' }, `Game ${game.id} • ${game.players} player${game.players !== 1 ? 's' : ''}`),
                   React.createElement('button', {
                     onClick: () => joinGame(game.id),
                     className: 'bg-gradient-to-r from-yellow-400 to-orange-500 px-4 md:px-6 py-2 rounded-xl hover:scale-110 transition-transform font-bold shadow-lg text-sm md:text-base'
@@ -475,12 +488,14 @@
             React.createElement(
               'div',
               { className: 'glass-card rounded-3xl p-8 max-w-2xl w-full' },
-              React.createElement('h1', { className: 'text-4xl md:text-5xl text-white text-center mb-4 font-bold' }, '🎴 Game Lobby'),
-              React.createElement('h2', { className: 'text-2xl md:text-3xl text-yellow-300 text-center mb-8 font-bold' }, `Code: ${gameId}`),
+              React.createElement('h1', { className: 'text-4xl md:text-5xl text-white text-center mb-4 font-bold' }, 'Game Lobby'),
+              React.createElement('h2', { className: 'text-2xl md:text-3xl text-yellow-300 text-center mb-2 font-bold' }, `Room Code: ${gameId}`),
+              React.createElement('p', { className: 'text-center text-white/70 mb-8 text-sm md:text-base' }, 'Share this code with friends to join'),
               React.createElement(
                 'div',
                 { className: 'glass-card rounded-2xl p-6 mb-6' },
                 React.createElement('h3', { className: 'text-xl md:text-2xl text-white mb-4 font-bold' }, `Players (${currentGame?.players.length}/10):`),
+                React.createElement('p', { className: 'text-white/70 text-sm mb-3' }, 'Waiting for at least 2 players to start...'),
                 React.createElement(
                   'div',
                   { className: 'space-y-2' },
@@ -495,7 +510,7 @@
                 onClick: startGame,
                 disabled: currentGame?.players.length < 2,
                 className: 'w-full bg-gradient-to-r from-green-400 to-green-600 text-white py-4 rounded-2xl text-xl md:text-2xl font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 transition-transform shadow-2xl btn-glow'
-              }, '🚀 Start Game')
+              }, currentGame?.players.length < 2 ? 'Waiting for players...' : 'Start Game')
             )
           );
         }
@@ -512,7 +527,7 @@
               React.createElement(
                 'div',
                 { className: 'flex justify-between items-center mb-6' },
-                React.createElement('h2', { className: 'text-3xl md:text-4xl text-white font-bold' }, `🎴 ${gameId}`),
+                React.createElement('h2', { className: 'text-3xl md:text-4xl text-white font-bold' }, `Room ${gameId}`),
                 React.createElement('div', { className: `text-xl md:text-3xl px-4 md:px-8 py-2 md:py-3 rounded-2xl font-bold ${isMyTurn ? 'bg-green-500 animate-pulse' : 'glass-card'}` }, isMyTurn ? '🎯 YOUR TURN!' : '⏳ Waiting...')
               ),
               React.createElement(
@@ -522,11 +537,12 @@
                   'div',
                   { className: 'glass-card rounded-3xl p-6' },
                   React.createElement('h3', { className: 'text-xl md:text-2xl text-white mb-4 font-bold' }, 'Top Card:'),
+                  React.createElement('p', { className: 'text-white/70 text-sm mb-3' }, 'Match this color or number'),
                   currentGame?.topCard && React.createElement('div', { className: 'flex justify-center' }, React.createElement(Card, { card: currentGame.topCard })),
                   React.createElement(
                     'p',
                     { className: 'text-lg md:text-xl text-white text-center mt-4' },
-                    'Color: ',
+                    'Current Color: ',
                     React.createElement('span', { className: `font-bold ${currentGame?.currentColor === 'red' ? 'text-uno-red' : currentGame?.currentColor === 'yellow' ? 'text-uno-yellow' : currentGame?.currentColor === 'green' ? 'text-uno-green' : 'text-uno-blue'}` }, currentGame?.currentColor?.toUpperCase())
                   )
                 ),
@@ -541,7 +557,7 @@
                       'div',
                       { key: p.id, className: 'bg-white/20 px-4 py-3 rounded-xl text-white flex justify-between items-center backdrop-blur-sm' },
                       React.createElement('span', { className: 'text-base md:text-lg font-semibold' }, p.name),
-                      React.createElement('span', { className: 'text-lg md:text-xl font-bold' }, `${p.cardCount} 🃏`),
+                      React.createElement('span', { className: 'text-lg md:text-xl font-bold' }, `${p.cardCount} cards`),
                       p.calledUno && React.createElement('span', { className: 'text-xl md:text-2xl' }, '🎯')
                     ))
                   )
@@ -553,7 +569,10 @@
                 React.createElement(
                   'div',
                   { className: 'flex flex-col md:flex-row justify-between items-center mb-4 gap-4' },
-                  React.createElement('h3', { className: 'text-xl md:text-2xl text-white font-bold' }, `Your Hand (${myHand.length} cards):`),
+                  React.createElement('div', null,
+                    React.createElement('h3', { className: 'text-xl md:text-2xl text-white font-bold' }, `Your Hand (${myHand.length} cards)`),
+                    React.createElement('p', { className: 'text-white/70 text-sm' }, isMyTurn ? 'Click a card to play it' : 'Wait for your turn')
+                  ),
                   React.createElement(
                     'div',
                     { className: 'flex gap-3' },
@@ -561,12 +580,12 @@
                       onClick: drawCard,
                       disabled: !isMyTurn,
                       className: 'bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 md:px-6 py-2 md:py-3 rounded-xl text-base md:text-xl font-bold disabled:opacity-50 hover:scale-110 transition-transform shadow-lg'
-                    }, '🎴 Draw'),
+                    }, 'Draw Card'),
                     React.createElement('button', {
                       onClick: callUno,
                       disabled: myHand.length !== 1,
                       className: 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 md:px-6 py-2 md:py-3 rounded-xl text-base md:text-xl font-bold disabled:opacity-50 hover:scale-110 transition-transform shadow-lg'
-                    }, '🎯 UNO!')
+                    }, 'Call UNO!')
                   )
                 ),
                 React.createElement(
