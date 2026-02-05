@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Simple</title>
+</head>
+<body style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: white; font-size: 24px; padding: 50px;">
+    <h1>🎮 Test Molt UNO</h1>
+    <p id="status">Loading JavaScript...</p>
+    <script>
+        document.getElementById('status').textContent = 'JavaScript works! ✅';
+        console.log('Basic JS loaded');
+    </script>
+    <script type="module">
+        try {
+            const status = document.getElementById('status');
+            status.textContent += '\nESM module works! ✅';
+            console.log('ESM module loaded');
+            
+            // Test React import
+            import('https://esm.sh/react@19.2.4').then(() => {
+                status.textContent += '\nReact loaded! ✅';
+                console.log('React loaded from esm.sh');
+            }).catch(err => {
+                status.textContent += '\n❌ React failed: ' + err.message;
+                console.error('React load error:', err);
+            });
+            
+            // Test Socket.IO import
+            import('https://cdn.socket.io/4.8.3/socket.io.esm.min.js').then(() => {
+                status.textContent += '\nSocket.IO loaded! ✅';
+                console.log('Socket.IO loaded');
+            }).catch(err => {
+                status.textContent += '\n❌ Socket.IO failed: ' + err.message;
+                console.error('Socket.IO load error:', err);
+            });
+        } catch (err) {
+            document.getElementById('status').textContent = '❌ Module error: ' + err.message;
+            console.error('Module error:', err);
+        }
+    </script>
+</body>
+</html>
