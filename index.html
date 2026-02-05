@@ -32,8 +32,8 @@
         font-family: 'Fredoka One', cursive;
       }
       
-      /* Real UNO card design */
-      .real-uno-card {
+      /* Authentic UNO card - Mattel design */
+      .uno-card {
         position: relative;
         width: 120px;
         height: 180px;
@@ -45,48 +45,54 @@
         box-shadow: 0 20px 60px rgba(0,0,0,0.5);
       }
       
-      .real-uno-card::before {
+      /* White oval in center */
+      .uno-card::before {
         content: '';
         position: absolute;
-        top: 10px;
-        left: 10px;
-        right: 10px;
-        bottom: 10px;
+        top: 12%;
+        left: 12%;
+        right: 12%;
+        bottom: 12%;
         background: white;
         border-radius: 50%;
-        transform: scaleY(1.5);
+        transform: scaleY(1.4);
         z-index: 1;
       }
       
-      .real-uno-card .card-number {
+      /* Main number/symbol in center (colored) */
+      .uno-card .main-symbol {
         position: relative;
         z-index: 2;
-        font-size: 70px;
+        font-size: 68px;
         font-weight: 900;
         font-family: 'Fredoka One', cursive;
+        line-height: 1;
       }
       
-      .real-uno-card .uno-logo-mini {
+      /* Small corner symbols (white on colored background) */
+      .uno-card .corner-top {
         position: absolute;
         top: 8px;
         left: 8px;
-        font-size: 12px;
+        font-size: 18px;
         font-weight: 900;
         color: white;
         z-index: 3;
         font-family: 'Fredoka One', cursive;
+        line-height: 1;
       }
       
-      .real-uno-card .uno-logo-mini-bottom {
+      .uno-card .corner-bottom {
         position: absolute;
         bottom: 8px;
         right: 8px;
-        font-size: 12px;
+        font-size: 18px;
         font-weight: 900;
         color: white;
         z-index: 3;
         font-family: 'Fredoka One', cursive;
         transform: rotate(180deg);
+        line-height: 1;
       }
       
       /* Background floating cards */
@@ -207,7 +213,7 @@
         line-height: 1.6;
       }
       
-      /* Game card style - authentic UNO */
+      /* Game card - smaller version for gameplay */
       .game-card {
         position: relative;
         width: 96px;
@@ -225,45 +231,58 @@
       .game-card::before {
         content: '';
         position: absolute;
-        top: 8px;
-        left: 8px;
-        right: 8px;
-        bottom: 8px;
+        top: 12%;
+        left: 12%;
+        right: 12%;
+        bottom: 12%;
         background: white;
         border-radius: 50%;
-        transform: scaleY(1.6);
+        transform: scaleY(1.4);
         z-index: 1;
       }
       
-      .game-card .card-value {
+      .game-card .main-symbol {
         position: relative;
         z-index: 2;
-        font-size: 56px;
+        font-size: 52px;
         font-weight: 900;
         font-family: 'Fredoka One', cursive;
+        line-height: 1;
       }
       
-      .game-card .mini-logo-tl {
+      .game-card .corner-top {
         position: absolute;
         top: 6px;
         left: 6px;
-        font-size: 10px;
+        font-size: 14px;
         font-weight: 900;
         color: white;
         z-index: 3;
         font-family: 'Fredoka One', cursive;
+        line-height: 1;
       }
       
-      .game-card .mini-logo-br {
+      .game-card .corner-bottom {
         position: absolute;
         bottom: 6px;
         right: 6px;
-        font-size: 10px;
+        font-size: 14px;
         font-weight: 900;
         color: white;
         z-index: 3;
         font-family: 'Fredoka One', cursive;
         transform: rotate(180deg);
+        line-height: 1;
+      }
+      
+      /* Reverse symbol - circular arrows */
+      .symbol-reverse::before {
+        content: '↻';
+        margin-right: -8px;
+      }
+      .symbol-reverse::after {
+        content: '↺';
+        margin-left: -8px;
       }
     </style>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -279,42 +298,42 @@
     
     <!-- Real UNO cards floating in background -->
     <div class="uno-card-bg card-1">
-      <div class="real-uno-card" style="background: linear-gradient(135deg, #E74C3C, #C0392B);">
-        <span class="uno-logo-mini">UNO</span>
-        <span class="card-number" style="color: #E74C3C;">7</span>
-        <span class="uno-logo-mini-bottom">UNO</span>
+      <div class="uno-card" style="background: linear-gradient(135deg, #E74C3C, #C0392B);">
+        <span class="corner-top">7</span>
+        <span class="main-symbol" style="color: #E74C3C;">7</span>
+        <span class="corner-bottom">7</span>
       </div>
     </div>
     
     <div class="uno-card-bg card-2">
-      <div class="real-uno-card" style="background: linear-gradient(135deg, #F1C40F, #F39C12);">
-        <span class="uno-logo-mini">UNO</span>
-        <span class="card-number" style="color: #F1C40F;">⇄</span>
-        <span class="uno-logo-mini-bottom">UNO</span>
+      <div class="uno-card" style="background: linear-gradient(135deg, #F1C40F, #F39C12);">
+        <span class="corner-top symbol-reverse" style="font-size: 14px;"></span>
+        <span class="main-symbol symbol-reverse" style="color: #F1C40F; font-size: 50px;"></span>
+        <span class="corner-bottom symbol-reverse" style="font-size: 14px;"></span>
       </div>
     </div>
     
     <div class="uno-card-bg card-3">
-      <div class="real-uno-card" style="background: linear-gradient(135deg, #2ECC71, #27AE60);">
-        <span class="uno-logo-mini">UNO</span>
-        <span class="card-number" style="color: #2ECC71;">⊘</span>
-        <span class="uno-logo-mini-bottom">UNO</span>
+      <div class="uno-card" style="background: linear-gradient(135deg, #2ECC71, #27AE60);">
+        <span class="corner-top">⊘</span>
+        <span class="main-symbol" style="color: #2ECC71;">⊘</span>
+        <span class="corner-bottom">⊘</span>
       </div>
     </div>
     
     <div class="uno-card-bg card-4">
-      <div class="real-uno-card" style="background: linear-gradient(135deg, #3498DB, #2980B9);">
-        <span class="uno-logo-mini">UNO</span>
-        <span class="card-number" style="color: #3498DB;">+2</span>
-        <span class="uno-logo-mini-bottom">UNO</span>
+      <div class="uno-card" style="background: linear-gradient(135deg, #3498DB, #2980B9);">
+        <span class="corner-top" style="font-size: 16px;">+2</span>
+        <span class="main-symbol" style="color: #3498DB; font-size: 60px;">+2</span>
+        <span class="corner-bottom" style="font-size: 16px;">+2</span>
       </div>
     </div>
     
     <div class="uno-card-bg card-5">
-      <div class="real-uno-card" style="background: linear-gradient(135deg, #E74C3C 25%, #F1C40F 25% 50%, #2ECC71 50% 75%, #3498DB 75%);">
-        <span class="uno-logo-mini">UNO</span>
-        <span class="card-number" style="background: linear-gradient(135deg, #E74C3C, #F1C40F, #2ECC71, #3498DB); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🌈</span>
-        <span class="uno-logo-mini-bottom">UNO</span>
+      <div class="uno-card" style="background: linear-gradient(135deg, #E74C3C 25%, #F1C40F 25% 50%, #2ECC71 50% 75%, #3498DB 75%);">
+        <span class="corner-top" style="font-size: 11px;">WILD</span>
+        <span class="main-symbol" style="color: #333; font-size: 40px; font-weight: 900;">WILD</span>
+        <span class="corner-bottom" style="font-size: 11px;">WILD</span>
       </div>
     </div>
     
@@ -333,13 +352,36 @@
         
         const colors = colorMap[card.color] || { bg: 'linear-gradient(135deg, #2c3e50, #34495e)', text: '#95a5a6' };
         
-        const displayValue = {
-          'draw2': '+2',
-          'draw4': '+4',
-          'skip': '⊘',
-          'reverse': '⇄',
-          'wild': '🌈'
-        }[card.value] || card.value;
+        let displayValue = card.value;
+        let cornerValue = card.value;
+        let isReverse = false;
+        let fontSize = '52px';
+        let cornerFontSize = '14px';
+        
+        if (card.value === 'draw2') {
+          displayValue = '+2';
+          cornerValue = '+2';
+          fontSize = '48px';
+          cornerFontSize = '12px';
+        } else if (card.value === 'draw4') {
+          displayValue = '+4';
+          cornerValue = '+4';
+          fontSize = '48px';
+          cornerFontSize = '12px';
+        } else if (card.value === 'skip') {
+          displayValue = '⊘';
+          cornerValue = '⊘';
+        } else if (card.value === 'reverse') {
+          isReverse = true;
+          displayValue = '';
+          cornerValue = '';
+        } else if (card.value === 'wild') {
+          displayValue = 'WILD';
+          cornerValue = 'WILD';
+          fontSize = '32px';
+          cornerFontSize = '9px';
+          colors.text = '#333';
+        }
         
         return React.createElement(
           'div',
@@ -348,9 +390,18 @@
             className: `game-card ${className}`,
             style: { background: colors.bg }
           },
-          React.createElement('span', { className: 'mini-logo-tl' }, 'UNO'),
-          React.createElement('span', { className: 'card-value', style: { color: colors.text } }, displayValue),
-          React.createElement('span', { className: 'mini-logo-br' }, 'UNO')
+          React.createElement('span', { 
+            className: isReverse ? 'corner-top symbol-reverse' : 'corner-top',
+            style: { fontSize: cornerFontSize }
+          }, cornerValue),
+          React.createElement('span', { 
+            className: isReverse ? 'main-symbol symbol-reverse' : 'main-symbol',
+            style: { color: colors.text, fontSize: fontSize }
+          }, displayValue),
+          React.createElement('span', { 
+            className: isReverse ? 'corner-bottom symbol-reverse' : 'corner-bottom',
+            style: { fontSize: cornerFontSize }
+          }, cornerValue)
         );
       }
 
